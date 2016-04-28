@@ -1,6 +1,11 @@
 package koi.renderer;
 
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+import gui.TileListener;
 import koi.Intersection;
 import koi.RGB;
 import koi.Ray;
@@ -22,26 +27,49 @@ public class SimpleRenderer extends Renderer{
 	{
 		int Width = bitmap.getWidth();
 		int Height = bitmap.getHeight();
-
-		for (int row = 0; row < Height; ++row)
-		{
-			for (int col = 0; col < Width; ++col)
-			{
-				RGB colour = new RGB();
-
-				for (int i = 0; i < scene.getSamples(); ++i)
+		
+		int processors = Runtime.getRuntime().availableProcessors();
+		ExecutorService executioner = Executors.newFixedThreadPool(processors);
+		
+		Runnable task = new Runnable() {
+			
+			@Override
+			public void run() {
+				for (int row = 0; row < Height && !executioner.isShutdown(); ++row)
 				{
-					Intersection intersection = new Intersection();
-					Point2D ap = new Point2D(Math.random(), Math.random());
-					double SampleX = (col + ap.X);
-					double SampleY = (row + ap.Y);
-					Ray ray = scene.getCamera().calculateRay(SampleX, SampleY, 0, 0, Width, Height);
-					colour.plusEquals(li(ray, intersection));
+					for (int col = 0; col < Width; ++col)
+					{
+						RGB colour = new RGB();
+
+						for (int i = 0; i < scene.getSamples(); ++i)
+						{
+							Point2D ap = new Point2D(Math.random(), Math.random());
+							double SampleX = (col + ap.X);
+							double SampleY = (row + ap.Y);
+							Ray ray = scene.getCamera().calculateRay(SampleX, SampleY, 0, 0, Width, Height);
+							colour.plusEquals(scene.getIntegrator().li(scene, ray));
+						}
+						colour.divideEquals((double)scene.getSamples());
+						bitmap.setPixel(col, row, colour);
+					}
+					for(TileListener tile : updateListeners)
+					{
+						tile.onUpdate(Thread.currentThread().getId());
+					}
 				}
-				colour.divideEquals((double)scene.getSamples());
-				bitmap.setPixel(col, row, colour);
+				
 			}
+		};
+		
+		executioner.execute(task);
+		
+		try {
+			executioner.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
+		} catch (InterruptedException e) {
+			// User pressed stop rendering button
+			executioner.shutdownNow();
 		}
+		
 
 	}
 
@@ -59,7 +87,7 @@ public class SimpleRenderer extends Renderer{
 
 		return color;
 	}
-	
+
 	public void setScene(Scene scene) {
 		this.scene = scene;
 	}
