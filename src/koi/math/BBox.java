@@ -115,32 +115,27 @@ public class BBox {
 	
     public int LongestAxis()
 	{
-		int index = 0;
-		double _max = -Double.MAX_VALUE;
-        Vector3D v = max.minus(min);
-        
-		if (Math.abs(v.X) > _max)
+		Vector3D v = max.minus(min);
+
+		if (v.X  > v.Y && v.X > v.Z)
 		{
-			index = 0;
-			_max = Math.abs(v.X);
+			return 0;
 		}
 		
-		if (Math.abs(v.Y) > _max)
+		if(v.Y > v.X && v.Y > v.Z)
 		{
-			index = 0;
-			_max = Math.abs(v.Y);
+			return 1;
 		}
 		
-		if (Math.abs(v.Z) > _max)
-		{
-			index = 0;
-			_max = Math.abs(v.Z);
-		}
-		
-		return index;
+		return 2;
 	}
-    
-	public boolean intersectRay(Ray ray, double out_t0, double out_t1)
+
+	public Point3D getCenter()
+	{
+		return min.plus(max).divide(2.0);
+	}
+	
+	public boolean intersectRay(Ray ray, Range range)
 	{
 
 		double tNear = ray.minT;
@@ -170,8 +165,8 @@ public class BBox {
 			}
 
 		}
-		out_t0 = tNear;
-		out_t1 = tFar;
+		range.t0 = tNear;
+		range.t1 = tFar;
 		return true;
 	}
 

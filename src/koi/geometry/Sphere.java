@@ -15,11 +15,12 @@ public class Sphere extends Geometry{
 	private BBox bounds;
 	private Point3D center;
 	
-	public Sphere(Transform worldToObject, Transform objectToWorld, double radius) {
-		super(worldToObject, objectToWorld);
+	public Sphere(Transform objectToWorld, Transform worldToObject, double radius) {
+		super(objectToWorld, worldToObject);
 		this.radius = radius;
 		bounds = new BBox();
 		center = objectToWorld.transform(new Point3D(0,0,0));
+		System.out.println(center);
 		Point3D point = new Point3D(radius, radius, radius);
 		bounds = bounds.plus(center.plus(point));
 		bounds = bounds.plus(center.plus(point.negate()));
@@ -31,7 +32,7 @@ public class Sphere extends Geometry{
 
 		Ray localRay = worldToObject.transform(ray);
 		double T;
-		Vector3D OC = localRay.origin.minus(center);
+		Vector3D OC = new Vector3D(localRay.origin);
 		double A = localRay.direction.dot(localRay.direction);
 		double B = localRay.direction.times(2.0).dot(OC);
 		double C = OC.dot(OC) - (radius * radius);
@@ -58,7 +59,7 @@ public class Sphere extends Geometry{
 			double u = phi / (2 * Math.PI);
 			double v = (theta / (2 * Math.PI));
 			intersection.point = p;
-			intersection.normal = new Normal((p.minus(center).hat()));
+			intersection.normal = new Normal(p.hat());
 			intersection.geometry = this;
 //			intersection.basis = OrthonormalBasis::FromW(Vector(intersection.INormal));
 			intersection.U = u;
@@ -81,7 +82,7 @@ public class Sphere extends Geometry{
 			double u = phi / (2 * Math.PI);
 			double v = (theta / (2 * Math.PI));
 			intersection.point = p;
-			intersection.normal = new Normal((p.minus(center).hat()));
+			intersection.normal = new Normal(p.hat());
 			intersection.geometry = this;
 //			intersection.basis = OrthonormalBasis::FromW(Vector(intersection.INormal));
 			intersection.U = u;

@@ -15,12 +15,13 @@ public class Transform {
 	
 	public Transform(Matrix matrix)
 	{
-		m_Transform = new Matrix(matrix);
+		m_Transform = matrix;
 		m_InverseTransform = matrix.inverse();
 	}
 	
 	public Transform(Matrix matrix, Matrix inverse)
 	{
+		System.out.println(matrix);
 		m_Transform = new Matrix(matrix);
 		m_InverseTransform = new Matrix(inverse);
 	}
@@ -33,12 +34,12 @@ public class Transform {
 	
 	public Transform inverse()
 	{
-		return null;
+		return new Transform(m_InverseTransform, m_Transform);
 	}
 	
-	public static Transform Translate(Vector3D v)
+	public static Transform Translate(double x, double y, double z)
 	{
-		return null;
+		return new Transform(Matrix.translate(x, y, z), Matrix.translate(-x, -y, -z));
 	}
 	
 	public static Transform Scale(float x, float y, float z)
@@ -74,9 +75,9 @@ public class Transform {
 		return m_InverseTransform;
 	}
 	
-	public Transform transform(Transform xform)
+	public Transform transform(Transform other)
 	{
-		return null;
+		return new Transform(m_Transform.times(other.m_Transform), m_InverseTransform.times(other.m_InverseTransform));
 	}
 	
 	public Point3D transform(Point3D point)

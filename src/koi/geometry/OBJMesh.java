@@ -16,8 +16,8 @@ public class OBJMesh extends Geometry {
 	private OBJLoader loader = null;
 	ArrayList<Triangle> worldTriangles = new ArrayList<Triangle>();
 	
-	public OBJMesh(Transform worldToObject, Transform objectToWorld, String filepath) {
-		super(worldToObject, objectToWorld);
+	public OBJMesh(Transform objectToWorld, Transform worldToObject, String filepath) {
+		super(objectToWorld, objectToWorld);
 		bounds = new BBox();
 		loader = new OBJLoader(filepath);
 		

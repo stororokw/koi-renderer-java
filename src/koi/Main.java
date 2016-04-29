@@ -25,7 +25,7 @@ public class Main {
 		int height = 500;
 		
 		Bitmap bitmap = new Bitmap(width, height);
-		Matrix m = Koi.XYZMax(new Vector3D(104.331, 104.331, 86.614), new Vector3D(62, 0, 135));
+		Matrix m = Koi.XYZMaxCamera(new Vector3D(104.331, 104.331, 86.614), new Vector3D(62, 0, 135));
 
 		Camera camera = new koi.camera.PerspectiveCamera(m, 15.805, width / (float)height, 0.1, 1000.0f);
 		Integrator integrator = new RayCasterIntegrator();

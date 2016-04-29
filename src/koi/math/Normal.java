@@ -30,6 +30,12 @@ public class Normal {
 		this.Z = z;
 	}
 	
+	public Normal(Point3D p) {
+		this.X = p.X;
+		this.Y = p.Y;
+		this.Z = p.Z;
+	}
+
 	public Normal plus(Vector3D v)
 	{
 		return new Normal(X + v.X, Y + v.Y, Z + v.Z);

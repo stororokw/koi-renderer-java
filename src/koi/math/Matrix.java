@@ -30,7 +30,7 @@ public class Matrix {
 	
 	public Matrix(Matrix other)
 	{
-		other.a = this.a.clone();
+		a = other.a.clone();
 	}
 	
 	public Matrix(Vector3D x, Vector3D y, Vector3D z) {

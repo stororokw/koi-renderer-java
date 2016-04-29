@@ -71,7 +71,20 @@ public final class Koi {
 //		1.2 Swap Y with Z
 	// 3. Subtract 90 deg rotation from X axis rotation
 	// 4. Swap Y and Z order in multiplication.
-	public static Matrix XYZMax(Vector3D translation, Vector3D rotation)
+	public static Matrix XYZMax(Vector3D translation, Vector3D rotation, Vector3D scale)
+	{
+		Matrix CameraToWorld;
+		Matrix z = Matrix.rotateZ(DegToRad(-rotation.Y));
+		Matrix y = Matrix.rotateY(DegToRad(rotation.Z));
+		Matrix x = Matrix.rotateX(DegToRad(rotation.X));
+		Matrix t = Matrix.translate(translation.X, translation.Z, -translation.Y);
+		Matrix s = Matrix.scale(scale.X, scale.Y, scale.Z);
+		// note the order is applied in reverse first x.
+		CameraToWorld = t.times(y).times(z).times(x).times(s);
+		return CameraToWorld;
+	}
+
+	public static Matrix XYZMaxCamera(Vector3D translation, Vector3D rotation)
 	{
 		Matrix CameraToWorld;
 		Matrix z = Matrix.rotateZ(DegToRad(-rotation.Y));
@@ -82,6 +95,5 @@ public final class Koi {
 		CameraToWorld = t.times(y).times(z).times(x);
 		return CameraToWorld;
 	}
-
 
 }

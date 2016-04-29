@@ -59,7 +59,7 @@ public class Point3D {
 		return new Point3D(X * s , Y * s, Z * s);
 	}
 
-	public Point3D timesEquals(float s)
+	public Point3D timesEquals(double s)
 	{
 		X *= s;
 		Y *= s;
@@ -67,7 +67,7 @@ public class Point3D {
 		return this;
 	}
 	
-	public Point3D divide(float s)
+	public Point3D divide(double s)
 	{
 		Point3D result = new Point3D();
 		s = 1 / s;
@@ -77,7 +77,7 @@ public class Point3D {
 		return result;
 	}
 	
-	public Point3D divideEquals(float s)
+	public Point3D divideEquals(double s)
 	{
 		s = 1 / s;
 		X *= s;

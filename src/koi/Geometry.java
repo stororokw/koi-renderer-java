@@ -5,12 +5,12 @@ import koi.math.Transform;
 
 public abstract class Geometry {
 	
-	protected Transform worldToObject = null;
 	protected Transform objectToWorld = null;
+	protected Transform worldToObject = null;
 	
-	public Geometry(Transform worldToObject, Transform objectToWorld) {
-		this.worldToObject = worldToObject;
+	public Geometry(Transform objectToWorld, Transform worldToObject) {
 		this.objectToWorld = objectToWorld;
+		this.worldToObject = worldToObject;
 	}
 	
 	boolean isCompound() 
@@ -26,6 +26,16 @@ public abstract class Geometry {
 	public Geometry GetSubGeometry(int i) 
 	{ 
 		return null;
+	}
+	
+	public Transform getWorldTransform()
+	{
+		return objectToWorld;
+	}
+	
+	public Transform getObjectTransform()
+	{
+		return worldToObject;
 	}
 	
 	public abstract BBox getBounds();

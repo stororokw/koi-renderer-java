@@ -18,9 +18,9 @@ public class Triangle extends Geometry{
 	
 	OBJMesh parent;
 	
-	public Triangle(Transform worldToObject, Transform objectToWorld, OBJVertex v0, OBJVertex v1, OBJVertex v2, OBJMesh mesh)
+	public Triangle(Transform objectToWorld, Transform worldToObject, OBJVertex v0, OBJVertex v1, OBJVertex v2, OBJMesh mesh)
 	{
-		super(worldToObject, objectToWorld);
+		super(objectToWorld, worldToObject);
 		this.v0 = v0;
 		this.v1 = v1;
 		this.v2 = v2;
