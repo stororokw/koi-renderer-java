@@ -33,6 +33,14 @@ public class Matrix {
 		other.a = this.a.clone();
 	}
 	
+	public Matrix(Vector3D x, Vector3D y, Vector3D z) {
+		this();
+		a[0]  = x.X;	a[1]  = y.X; 	a[2]  = z.X;	a[3]  = 0;
+		a[4]  = x.Y;	a[5]  = y.Y; 	a[6]  = z.Y;	a[7]  = 0;
+		a[8]  = x.Z;	a[9]  = y.Z; 	a[10] = z.Z;	a[11] = 0;
+		a[12] = 0;		a[13] = 0;		a[14] = 0;		a[15] = 1;
+	}
+
 	public static Matrix identity()
 	{
 		return new Matrix();
@@ -288,6 +296,18 @@ public class Matrix {
 		res.a[15] = 0;
 
 		return res;
+	}
+	
+	public static Matrix lookAt(Point3D pos, Point3D target, Vector3D u)
+	{
+		Vector3D dir = pos.minus(target).hat();
+		Vector3D right = dir.cross(u).hat();
+		Vector3D up = right.cross(dir).hat();
+
+		Matrix res = new Matrix(right, up, dir);
+		Matrix translate;
+		translate = Matrix.translate(-pos.X, -pos.Y, -pos.Z);
+		return res.times(translate);
 	}
 
 	public Point3D times(Point3D v)

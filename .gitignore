@@ -1,5 +1,8 @@
 *.class
 
+# scenes
+src/scene/
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 

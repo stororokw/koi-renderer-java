@@ -33,30 +33,34 @@ public class TileRenderer extends Renderer {
 	@Override
 	public void render() {
 		Stack<RenderTile> tasks = new Stack<RenderTile>();
-		
-		for (int currentTile = 0; currentTile < tiles; ++currentTile)
-		{
-			int row = currentTile / tilesX;
-			int col = currentTile % tilesX;
-	        int x0 = col * tileSize;
-	        int y0 = row * tileSize;
-	        int x1 = Math.min(tileSize, bitmap.getWidth() - x0);
-	        int y1 = Math.min(tileSize, bitmap.getHeight() - y0);
-			tasks.add(new RenderTile(this, scene, x0, y0, x1, y1, scene.getSamples()));
-		}		
+
 		int processors = Runtime.getRuntime().availableProcessors();
 		ExecutorService executioner = Executors.newFixedThreadPool(processors);
-		while(!tasks.isEmpty())
-		{
-			executioner.execute(tasks.pop());
-		}
-		
-		executioner.shutdown();
 		try {
+			for (int currentTile = 0; currentTile < tiles; ++currentTile)
+			{
+				int row = currentTile / tilesX;
+				int col = currentTile % tilesX;
+		        int x0 = col * tileSize;
+		        int y0 = row * tileSize;
+		        int x1 = Math.min(tileSize, bitmap.getWidth() - x0);
+		        int y1 = Math.min(tileSize, bitmap.getHeight() - y0);
+		        if(x1 > 0 && y1 > 0)
+		        	tasks.add(new RenderTile(this, scene, x0, y0, x1, y1, scene.getSamples()));
+			}		
+			while(!tasks.isEmpty())
+			{
+				executioner.execute(tasks.pop());
+			}
+			
+			executioner.shutdown();
 			executioner.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
 		} catch (InterruptedException e) {
 			// User pressed stop rendering button
 			executioner.shutdownNow();
+		} catch( Exception e)
+		{
+			e.printStackTrace();
 		}
 
 	}

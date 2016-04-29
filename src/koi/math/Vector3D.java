@@ -112,10 +112,10 @@ public class Vector3D implements Iterable<Vector3D>{
 		return X * n.X + Y * n.Y + Z * n.Z;
 	}
 	
-	public Vector3D cross(Vector3D a, Vector3D b)
+	public Vector3D cross(Vector3D b)
 	{
 
-		return new Vector3D(a.Y * b.Z - b.Y * a.Z, b.X * a.Z - a.X * b.Z, a.X * b.Y - a.Y * b.X);
+		return new Vector3D(Y * b.Z - b.Y * Z, b.X * Z - X * b.Z, X * b.Y - Y * b.X);
 	}
 	
 	public Vector3D hat()

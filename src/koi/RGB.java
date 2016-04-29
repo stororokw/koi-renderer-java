@@ -163,4 +163,8 @@ public class RGB {
 	public void setBlue(double b) {
 		this.b = b;
 	}
+
+	public RGB abs() {
+		return new RGB(Math.abs(r), Math.abs(g), Math.abs(b));
+	}
 }

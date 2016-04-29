@@ -86,6 +86,19 @@ public class BBox {
 		return Result;
 	}
 	
+	public BBox plusEquals(Point3D point)
+	{
+		min.X = Math.min(point.X, min.X);
+		min.Y = Math.min(point.Y, min.Y);
+		min.Z = Math.min(point.Z, min.Z);
+
+		max.X = Math.max(point.X, max.X);
+		max.Y = Math.max(point.Y, max.Y);
+		max.Z = Math.max(point.Z, max.Z);
+
+		return this;
+	}
+	
 	public BBox plus(BBox box)
 	{
 		BBox Result = new BBox();
