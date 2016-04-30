@@ -8,7 +8,7 @@ public class Scene {
 
 	protected Camera camera = null;
 	protected Integrator integrator = null;
-	protected ArrayList<Geometry> geometries = new ArrayList<Geometry>();
+	protected ArrayList<Primitive> geometries = new ArrayList<Primitive>();
 	protected int samples = 16;
 	protected Bitmap bitmap = null;
 	
@@ -20,7 +20,7 @@ public class Scene {
 	public boolean intersect(Ray ray, Intersection intersection)
 	{
 		boolean hit = false;
-		for(Geometry geometry : geometries)
+		for(Primitive geometry : geometries)
 		{
 			if(geometry.intersectRay(ray, intersection))
 			{
@@ -42,7 +42,7 @@ public class Scene {
 		return integrator;
 	}
 	
-	public void addGeometry(Geometry geometry)
+	public void addGeometry(Primitive geometry)
 	{
 		geometries.add(geometry);
 	}

@@ -53,6 +53,7 @@ public class RenderTile implements Runnable {
 					colour.plusEquals(scene.getIntegrator().li(scene, ray));	
 				}
 				colour.divideEquals(scene.getSamples());
+				colour = colour.pow(1 / 2.2).clamp();
 				bitmap.setPixel(col, row, colour);
 			}
 		}

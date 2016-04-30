@@ -29,10 +29,8 @@ public class Main {
 
 		Camera camera = new koi.camera.PerspectiveCamera(m, 15.805, width / (float)height, 0.1, 1000.0f);
 		Integrator integrator = new RayCasterIntegrator();
-		Geometry sphere = new Sphere(new Transform(),new Transform(), 5.0);
 		Scene scene = new Scene();
 
-		scene.addGeometry(sphere);
 		scene.setCamera(camera);
 		scene.setSamples(16);
 		scene.setIntegrator(integrator);

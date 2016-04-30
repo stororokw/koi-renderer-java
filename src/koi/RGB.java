@@ -134,9 +134,9 @@ public class RGB {
 	
 	public RGB clamp()
 	{
-		int _r = (int)(Koi.clamp(r, 0.0, 1.0));
-		int _g = (int)(Koi.clamp(g, 0.0, 1.0));
-		int _b = (int)(Koi.clamp(b, 0.0, 1.0));
+		double _r = (Koi.clamp(r, 0.0, 1.0));
+		double _g = (Koi.clamp(g, 0.0, 1.0));
+		double _b = (Koi.clamp(b, 0.0, 1.0));
 		return new RGB(_r, _g, _b); 
 	}
 

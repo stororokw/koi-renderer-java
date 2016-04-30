@@ -75,6 +75,7 @@ public class RenderWindow extends JFrame implements ActionListener{
 				@Override
 				protected Void doInBackground() throws Exception {
 					long start = System.currentTimeMillis();
+					panel.clear();
 					renderer.render();
 					long end = System.currentTimeMillis() - start;
 					System.out.println(end / 1000.0);

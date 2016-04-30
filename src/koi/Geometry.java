@@ -13,7 +13,7 @@ public abstract class Geometry {
 		this.worldToObject = worldToObject;
 	}
 	
-	boolean isCompound() 
+	public boolean isCompound() 
 	{ 
 		return false; 
 	}
@@ -23,9 +23,9 @@ public abstract class Geometry {
 		return 1; 
 	}
 	
-	public Geometry GetSubGeometry(int i) 
+	public Geometry getSubGeometry(int i) 
 	{ 
-		return null;
+		return this;
 	}
 	
 	public Transform getWorldTransform()

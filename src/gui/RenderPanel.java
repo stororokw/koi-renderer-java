@@ -64,4 +64,8 @@ public class RenderPanel extends JPanel implements TileListener{
 		rectangles.put(thread, new Rectangle(x0, y0, x1, y1));
 		
 	}
+
+	public void clear() {
+		scene.getBitmap().clear(Color.black);	
+	}
 }

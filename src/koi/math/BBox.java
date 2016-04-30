@@ -113,6 +113,19 @@ public class BBox {
 		return Result;
 	}
 	
+	public BBox plusEquals(BBox box)
+	{
+		min.X = Math.min(box.min.X, min.X);
+		min.Y = Math.min(box.min.Y, min.Y);
+		min.Z = Math.min(box.min.Z, min.Z);
+
+		max.X = Math.max(box.max.X, max.X);
+		max.Y = Math.max(box.max.Y, max.Y);
+		max.Z = Math.max(box.max.Z, max.Z);
+		
+		return this;
+	}
+	
     public int LongestAxis()
 	{
 		Vector3D v = max.minus(min);

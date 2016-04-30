@@ -28,7 +28,6 @@ public class OBJMesh extends Geometry {
 			bounds.plusEquals(worldPoint);
 			worldPoints.add(worldPoint);
 		}
-		
 		ArrayList<OBJVertex> vertices = loader.vertices;
 		for(int i = 0; i < vertices.size(); i += 3)
 		{
@@ -44,12 +43,27 @@ public class OBJMesh extends Geometry {
 		}
 
 	}
+	
+	@Override
+	public int getNumberOfGeometries() {
+		return worldTriangles.size();
+	}
+
+	@Override
+	public Geometry getSubGeometry(int i) {
+		return worldTriangles.get(i);
+	}
 
 	@Override
 	public BBox getBounds() {
 		return bounds;
 	}
-
+	
+	@Override
+	public boolean isCompound() {
+		return true;
+	}
+	
 	@Override
 	public boolean intersectRay(Ray ray, Intersection intersection) {
 		for (int i = 0; i < worldTriangles.size(); ++i)

@@ -69,7 +69,7 @@ public class Point3D {
 	
 	public Point3D divide(double s)
 	{
-		Point3D result = new Point3D();
+		Point3D result = new Point3D(this);
 		s = 1 / s;
 		result.X *= s;
 		result.Y *= s;
