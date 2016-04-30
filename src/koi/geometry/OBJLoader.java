@@ -1,14 +1,16 @@
 package koi.geometry;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.Iterator;
+import java.util.StringTokenizer;
+import java.util.stream.Stream;
 
 import koi.math.Normal;
 import koi.math.Point3D;
-
-
 
 public class OBJLoader {
 	public ArrayList<Point3D> positions = new ArrayList<Point3D>();
@@ -20,95 +22,79 @@ public class OBJLoader {
 		
 		File file = new File(filepath);
 		try {
-			Scanner scanner = new Scanner(file);
-			String line;
+			BufferedReader reader = new BufferedReader(new FileReader(file));
+			Stream<String> lines = reader.lines();
+			Iterator<String> iter = lines.iterator();
+
 			double x;
 			double y;
 			double z;
-			while(scanner.hasNext())
+			int positionIndex;
+			int normalIndex;
+			int uvwIndex;
+			
+			while(iter.hasNext())
 			{
-				line = scanner.next();
+				String line = iter.next();
+				StringTokenizer tokenizer = new StringTokenizer(line);
 				if(line.startsWith("#"))
 				{
-					scanner.nextLine();
 					continue;
 				}
 				else if(line.startsWith("vn"))
 				{
-					x = scanner.nextFloat();
-					y = scanner.nextFloat();
-					z = scanner.nextFloat();
+					tokenizer.nextToken();
+					x = Float.parseFloat(tokenizer.nextToken());
+					y = Float.parseFloat(tokenizer.nextToken());
+					z = Float.parseFloat(tokenizer.nextToken());
 					Normal normal = new Normal(x, y, z);
 					normals.add(normal);
 				}
 				else if(line.startsWith("vt"))
 				{
-					x = scanner.nextFloat();
-					y = scanner.nextFloat();
-					z = scanner.nextFloat();
+					tokenizer.nextToken();
+					x = Float.parseFloat(tokenizer.nextToken());
+					y = Float.parseFloat(tokenizer.nextToken());
+					z = Float.parseFloat(tokenizer.nextToken());
 					Point3D uvw = new Point3D(x, y, z);
 					uvws.add(uvw);
 				}
 				else if(line.startsWith("v"))
 				{
-					x = scanner.nextDouble();
-					y = scanner.nextDouble();
-					z = scanner.nextDouble();
+					tokenizer.nextToken();
+					x = Float.parseFloat(tokenizer.nextToken());
+					y = Float.parseFloat(tokenizer.nextToken());
+					z = Float.parseFloat(tokenizer.nextToken());
 					Point3D point = new Point3D(x, y, z);
 					positions.add(point);
 				} 
 				else if(line.startsWith("f"))
 				{
-					String faceString = scanner.nextLine();
-					if(faceString.contains("//"))
+					if(line.contains("//"))
 					{
-						String[] tokens = faceString.split("//");
-						for(int i = 0; i < faceString.length(); i +=3)
-						{
-//							int positionIndex = Integer.valueOf(tokens[i]);
-//							int normalIndex = Integer.valueOf(tokens[i + 1]);
-//							vertices.add(new OBJVertex(positionIndex, normalIndex, -1));
-						}
+						
 					}
 					else
 					{
-						Scanner tokenize = new Scanner(faceString);
-						while(tokenize.hasNext())
+						tokenizer.nextToken();
+						for(int i = 0 ; i < 3; ++i)
 						{
-							String[] tokens = tokenize.next().split("/");
-							for(int i = 0; i < tokens.length; i +=3)
-							{
-								int positionIndex = Integer.valueOf(tokens[i].trim()) - 1;
-								int uvwIndex = Integer.valueOf(tokens[i + 1].trim()) - 1;
-								int normalIndex = Integer.valueOf(tokens[i + 2].trim()) - 1;
-//								vertices.add(new OBJVertex(positionIndex, normalIndex, uvwIndex));
-								vertices.add(new OBJVertex(
-										positions.get(positionIndex),
-										normals.get(normalIndex),
-										uvws.get(uvwIndex)));
-							}
+							positionIndex = Integer.valueOf(tokenizer.nextToken("/ ").trim()) - 1;
+							uvwIndex = Integer.valueOf(tokenizer.nextToken("/ ").trim()) - 1;
+							normalIndex = Integer.valueOf(tokenizer.nextToken("/ ").trim()) - 1;
+							vertices.add(new OBJVertex(
+							positions.get(positionIndex),
+							normals.get(normalIndex),
+							uvws.get(uvwIndex)));
 						}
-						tokenize.close();
 					}
 				}
 			}
-
-			scanner.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			reader.close();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void main(String args[])
-	{
-		long start = System.currentTimeMillis();
-		
-		OBJLoader loader = new OBJLoader("I:\\[DEMOS]\\scenes\\material\\macbeth.obj");
-		double end = (System.currentTimeMillis() - start) / 1000.0;
-		System.out.println(end + " s");
-	}
-
 
 }
 
