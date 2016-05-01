@@ -37,7 +37,7 @@ public class RenderTile implements Runnable {
 	public void run() {
 		for(TileListener listener : renderer.updateListeners)
 		{
-			listener.onStart(x0, y0, x1, y1, Thread.currentThread().getId());
+			listener.onStart(x0, y0, x1, y1, Thread.currentThread().getId() % Runtime.getRuntime().availableProcessors());
 		}
 		for (int row = 0; row < y1; ++row)
 		{
