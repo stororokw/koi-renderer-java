@@ -1,5 +1,7 @@
 package koi.renderer;
 
+import gui.TileListener;
+
 import java.util.Collections;
 import java.util.Stack;
 import java.util.concurrent.ExecutorService;
@@ -112,6 +114,10 @@ public class TileRenderer extends Renderer {
 			
 			executioner.shutdown();
 			executioner.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
+			for(TileListener listener : updateListeners)
+			{
+				listener.onComplete();
+			}
 		} catch (InterruptedException e) {
 			// User pressed stop rendering button
 			executioner.shutdownNow();
