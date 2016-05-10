@@ -1,6 +1,7 @@
 package koi;
 
 import koi.math.Normal;
+import koi.math.OrthonormalBasis;
 import koi.math.Point3D;
 
 public class Intersection {
@@ -10,5 +11,7 @@ public class Intersection {
 	public double U;
 	public double V;
 	public Geometry geometry;
+	public Material material;
 	public double tHit = Double.MAX_VALUE;
+	public OrthonormalBasis basis = null;
 }

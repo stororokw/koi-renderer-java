@@ -5,6 +5,7 @@ import koi.Intersection;
 import koi.Ray;
 import koi.math.BBox;
 import koi.math.Normal;
+import koi.math.OrthonormalBasis;
 import koi.math.Point3D;
 import koi.math.Transform;
 import koi.math.Vector3D;
@@ -61,7 +62,7 @@ public class Sphere extends Geometry{
 			intersection.point = p;
 			intersection.normal = new Normal(p.hat());
 			intersection.geometry = this;
-//			intersection.basis = OrthonormalBasis::FromW(Vector(intersection.INormal));
+			intersection.basis = OrthonormalBasis.fromW(new Vector3D(intersection.normal));
 			intersection.U = u;
 			intersection.V = v;
 			return true;
@@ -84,7 +85,7 @@ public class Sphere extends Geometry{
 			intersection.point = p;
 			intersection.normal = new Normal(p.hat());
 			intersection.geometry = this;
-//			intersection.basis = OrthonormalBasis::FromW(Vector(intersection.INormal));
+			intersection.basis = OrthonormalBasis.fromW(new Vector3D(intersection.normal));
 			intersection.U = u;
 			intersection.V = v;
 			return true;

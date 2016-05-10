@@ -20,7 +20,7 @@ public class Ray {
 	{
 		this.origin = origin;
 		this.direction = direction;
-		this.minT = Double.MIN_VALUE;
+		this.minT = 1e-5f;
 		this.maxT = Double.MAX_VALUE;
 	}
 	

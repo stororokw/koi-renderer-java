@@ -4,6 +4,8 @@ public class RGB {
 	public static final RGB red = new RGB(1,0,0);
 	public static final RGB green = new RGB(0,1,0);
 	public static final RGB blue = new RGB(0,0,1);
+	public static final RGB black = new RGB(0.0, 0.0, 0.0);
+	public static final RGB white = new RGB(1.0, 1.0, 1.0);
 	
 	double r;
 	double g;
@@ -166,5 +168,26 @@ public class RGB {
 
 	public RGB abs() {
 		return new RGB(Math.abs(r), Math.abs(g), Math.abs(b));
+	}
+
+	public RGB divide(double s) {
+		s = 1.0 / s;
+		return new RGB(r * s, g * s, b * s);
+	}
+
+	public RGB times(double s) {
+		return new RGB(r * s, g * s, b * s);
+	}
+
+	public void timesEquals(double s) {
+		r *= s;
+		g *= s;
+		b *= s;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		RGB rgb = (RGB)obj;
+		return Double.compare(r, rgb.r) == 0 && Double.compare(g, rgb.g) == 0 && Double.compare(b, rgb.b) == 0;
 	}
 }

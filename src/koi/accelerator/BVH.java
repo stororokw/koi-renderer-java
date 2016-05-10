@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import koi.Intersection;
+import koi.Material;
 import koi.Primitive;
 import koi.Ray;
 import koi.math.BBox;
@@ -185,5 +186,10 @@ public class BVH extends Primitive{
 			return 0;
 		}
 
+	}
+
+	@Override
+	public Material getMaterial() {
+		return null;
 	}
 }

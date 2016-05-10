@@ -5,6 +5,7 @@ import koi.Intersection;
 import koi.Ray;
 import koi.math.BBox;
 import koi.math.Normal;
+import koi.math.OrthonormalBasis;
 import koi.math.Point3D;
 import koi.math.Transform;
 import koi.math.Vector3D;
@@ -79,6 +80,7 @@ public class Triangle extends Geometry{
 			intersection.U = uvw.X;
 			intersection.V = uvw.Y;
 			intersection.geometry = this;
+			intersection.basis = OrthonormalBasis.fromW(new Vector3D(normal));
 			return true;
 		}
 		return false;

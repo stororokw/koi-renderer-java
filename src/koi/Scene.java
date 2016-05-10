@@ -1,7 +1,9 @@
 package koi;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import koi.light.PointLight;
 import koi.util.Bitmap;
 
 public class Scene {
@@ -9,6 +11,7 @@ public class Scene {
 	protected Camera camera = null;
 	protected Integrator integrator = null;
 	protected ArrayList<Primitive> geometries = new ArrayList<Primitive>();
+	protected ArrayList<Light> lights = new ArrayList<Light>();
 	protected int samples = 16;
 	protected Bitmap bitmap = null;
 	
@@ -66,5 +69,13 @@ public class Scene {
 	
 	public void setIntegrator(Integrator integrator) {
 		this.integrator = integrator;
+	}
+
+	public List<Light> getLights() {
+		return lights;
+	}
+
+	public void addLight(PointLight pointLight) {
+		lights.add(pointLight);
 	}
 }

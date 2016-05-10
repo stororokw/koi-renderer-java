@@ -9,6 +9,7 @@ public abstract class Primitive {
 	public abstract boolean intersectRay(Ray ray, Intersection intersection);
 	public abstract BBox getBounds();
 	public abstract List<Primitive> getPrimitives();
+	public abstract Material getMaterial();
 	
 	public boolean isCompound()
 	{

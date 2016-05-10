@@ -4,7 +4,7 @@ import koi.Koi;
 
 public class OrthonormalBasis {
 	public static double ORTHONORMAL_EPSILON = 1e-6;
-	Vector3D U, V, W;
+	public Vector3D U, V, W;
 	
 	public OrthonormalBasis()
 	{
@@ -20,12 +20,31 @@ public class OrthonormalBasis {
 		W = w;
 	}
 	
-	public Vector3D toLocal(OrthonormalBasis basis, Vector3D v)
+	public static OrthonormalBasis fromW(Vector3D w)
+	{
+		// Assuming that w is already normalized
+		OrthonormalBasis basis = new OrthonormalBasis();
+		basis.W = w.hat();
+		Vector3D V;
+		if (Math.abs(w.X) > Math.abs(w.Z))
+		{
+			V = new Vector3D(-w.Y, w.X, 0.0);
+		}
+		else
+		{
+			V = new Vector3D(0.0, -w.Z, w.Y);
+		}
+		basis.V = V.hat();
+		basis.U = w.cross(V);
+		return basis;
+	}
+	
+	public static Vector3D toLocal(OrthonormalBasis basis, Vector3D v)
 	{
 		return new Vector3D(basis.U.dot(v), basis.V.dot(v), basis.W.dot(v));
 	}
 	
-	public Vector3D toWorld(OrthonormalBasis basis, Vector3D v)
+	public static Vector3D toWorld(OrthonormalBasis basis, Vector3D v)
 	{
 		return new Vector3D(basis.U.dot(v), basis.V.dot(v), basis.W.dot(v));
 	}
