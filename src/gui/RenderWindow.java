@@ -45,6 +45,7 @@ public class RenderWindow extends JFrame implements ActionListener{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				worker.cancel(true);
+				panel.onStop();
 			}
 		});
 		toolbar.add(button);

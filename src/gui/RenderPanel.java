@@ -68,6 +68,13 @@ public class RenderPanel extends JPanel implements TileListener{
 	public void clear() {
 		scene.getBitmap().clear(Color.black);	
 	}
+	
+	public void onStop() {
+		synchronized (rectangles) {
+			rectangles.clear();
+		}
+		this.repaint();
+	}
 
 	@Override
 	public void onComplete() {
