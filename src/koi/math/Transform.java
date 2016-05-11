@@ -103,4 +103,29 @@ public class Transform {
 		return m_Transform.times(ray);
 	}
 	
+	public BBox transform(BBox box)
+	{
+		double a;
+		double b;
+		Point3D AMin = box.getMin();
+		Point3D AMax = box.getMax();
+		Point3D BMin = new Point3D();
+		Point3D BMax = new Point3D();
+		BMin.X = BMax.X = m_Transform.a[12];
+		BMin.Y = BMax.Y = m_Transform.a[13];
+		BMin.Z = BMax.Z = m_Transform.a[14];
+		
+		for (int row = 0; row < 3; ++row)
+		{
+			for (int col = 0; col < 3; ++col)
+			{
+				int column = col;
+				a = m_Transform.get(row, column) * AMin.at(col);
+				b = m_Transform.get(row, column) * AMax.at(col);
+				BMin.set(row, BMin.at(row) + Math.min(a, b));
+				BMax.set(row, BMax.at(row) + Math.max(a, b));
+			}
+		}
+		return new BBox(BMin, BMax);
+	}
 }

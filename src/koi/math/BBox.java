@@ -182,5 +182,15 @@ public class BBox {
 		range.t1 = tFar;
 		return true;
 	}
+	
+	public Point3D getMin()
+	{
+		return min;
+	}
+	
+	public Point3D getMax()
+	{
+		return max;
+	}
 
 }

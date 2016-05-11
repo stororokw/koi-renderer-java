@@ -1,11 +1,14 @@
 package koi.geometry;
 
 import koi.Geometry;
+import koi.GeometrySample;
 import koi.Intersection;
 import koi.Ray;
+import koi.Sampler;
 import koi.math.BBox;
 import koi.math.Normal;
 import koi.math.OrthonormalBasis;
+import koi.math.Point2D;
 import koi.math.Point3D;
 import koi.math.Transform;
 import koi.math.Vector3D;
@@ -84,6 +87,22 @@ public class Triangle extends Geometry{
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public void sample(Point2D sample, GeometrySample geometrySample) {
+		Point2D uniformPoint = Sampler.uniformTriangle(sample);
+		geometrySample.point = v2.position.times(uniformPoint.X)
+								.plus(v1.position.times(uniformPoint.Y))
+								.plus(v0.position.times(1.0 - uniformPoint.X - uniformPoint.Y));
+		geometrySample.normal = new Normal((v1.position.minus(v0.position).cross(v2.position.minus(v0.position))).hat());
+	}
+
+	@Override
+	public double getSurfaceArea() {
+		return 0.5 * (v1.position.minus(v0.position))
+				.cross(v2.position.minus(v0.position))
+				.length();
 	}
 	
 

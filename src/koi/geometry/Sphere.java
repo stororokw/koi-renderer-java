@@ -1,11 +1,14 @@
 package koi.geometry;
 
 import koi.Geometry;
+import koi.GeometrySample;
 import koi.Intersection;
 import koi.Ray;
+import koi.Sampler;
 import koi.math.BBox;
 import koi.math.Normal;
 import koi.math.OrthonormalBasis;
+import koi.math.Point2D;
 import koi.math.Point3D;
 import koi.math.Transform;
 import koi.math.Vector3D;
@@ -97,6 +100,18 @@ public class Sphere extends Geometry{
 	@Override
 	public BBox getBounds() {
 		return bounds;
+	}
+
+	@Override
+	public void sample(Point2D sample, GeometrySample geometrySample) {
+		Vector3D r = Sampler.uniformSphere(sample);
+		geometrySample.point = objectToWorld.transform(new Point3D(r.X * radius, r.Y * radius, r.Z * radius));
+		geometrySample.normal = objectToWorld.transform(new Normal(r)).hat();
+	}
+
+	@Override
+	public double getSurfaceArea() {
+		return 4.0 * Math.PI * radius * radius;
 	}
 
 	

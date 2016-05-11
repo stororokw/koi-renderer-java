@@ -149,4 +149,20 @@ public class Point3D {
 		Point3D point = (Point3D)p;
 		return X == point.X && Y == point.Y && Z == point.Z;
 	}
+
+	public void set(int index, double d) {
+		switch(index)
+		{
+		case 0:
+			X = d;
+			return;
+		case 1:
+			Y = d;
+			return;
+		case 2:
+			Z = d;
+			return;
+		}
+		throw new IndexOutOfBoundsException();
+	}
 }

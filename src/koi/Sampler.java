@@ -36,6 +36,21 @@ public class Sampler {
 		return 0.5 / Math.PI;
 	}
 	
+	public static Vector3D uniformSphere(Point2D sample)
+	{
+		double z = sample.X * 2.0 - 1;
+		double r = Math.sqrt(Math.max(0.0, 1.0 - z * z));
+		double phi = 2.0 * Math.PI * sample.Y;
+		double x = r * Math.cos(phi);
+		double y = r * Math.sin(phi);
+		return new Vector3D(x, y, z);
+	}
+	
+	public static double uniformSpherePDF()
+	{
+		return 0.25 / Math.PI;
+	}
+	
 	public static Point2D uniformTriangle(Point2D sample)
 	{
 		double s = Math.sqrt(sample.X);

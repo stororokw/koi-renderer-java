@@ -3,10 +3,15 @@ package koi.geometry;
 import java.util.ArrayList;
 
 import koi.Geometry;
+import koi.GeometrySample;
 import koi.Intersection;
+import koi.Koi;
 import koi.Ray;
 import koi.math.BBox;
+import koi.math.Distribution1D;
+import koi.math.Distribution1DSample;
 import koi.math.Normal;
+import koi.math.Point2D;
 import koi.math.Point3D;
 import koi.math.Transform;
 
@@ -14,6 +19,8 @@ public class OBJMesh extends Geometry {
 
 	private BBox bounds = null;
 	private OBJLoader loader = null;
+	private double area;
+	private Distribution1D areaDistribution;
 	ArrayList<Triangle> worldTriangles = new ArrayList<Triangle>();
 	
 	public OBJMesh(Transform objectToWorld, Transform worldToObject, String filepath) {
@@ -74,6 +81,33 @@ public class OBJMesh extends Geometry {
 			}
 		}
 		return false;
-	}	
+	}
+	
+	private void calculateAreaDistribution()
+	{
+		area = 0.0;
+		double[] areas = new double[worldTriangles.size()];
+		for(int i = 0; i < worldTriangles.size(); ++i)
+		{
+			double temp = worldTriangles.get(i).getSurfaceArea();
+			area += temp;
+			areas[i] = temp;
+		}
+		areaDistribution = new Distribution1D(areas);
+	}
+
+	@Override
+	public void sample(Point2D sample, GeometrySample geometrySample) {
+		Distribution1DSample distSample = new Distribution1DSample();
+		areaDistribution.Sample(sample.X, distSample);
+		int index = (int) Koi.clamp(distSample.probability * worldTriangles.size(),
+				0.0, worldTriangles.size() - 1);
+		worldTriangles.get(index).sample(sample, geometrySample);
+	}
+
+	@Override
+	public double getSurfaceArea() {
+		return area;
+	}
 	
 }

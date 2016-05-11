@@ -1,6 +1,7 @@
 package koi;
 
 import koi.math.BBox;
+import koi.math.Point2D;
 import koi.math.Transform;
 
 public abstract class Geometry {
@@ -40,6 +41,8 @@ public abstract class Geometry {
 	
 	public abstract BBox getBounds();
 	public abstract boolean intersectRay(Ray ray, Intersection intersection);
+	public abstract void sample(Point2D sample, GeometrySample geometrySample);
+	public abstract double getSurfaceArea();
 
 	
 }
