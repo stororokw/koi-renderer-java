@@ -22,7 +22,7 @@ public class RenderPanel extends JPanel implements TileListener{
 	
 	public RenderPanel(Scene scene) {
 		this.scene = scene;
-		this.setPreferredSize(new Dimension(scene.getBitmap().getWidth(), scene.getBitmap().getHeight()));
+		this.setPreferredSize(new Dimension(scene.getBitmap().getWidth() + 100, scene.getBitmap().getHeight() + 100));
 		this.setDoubleBuffered(true);
 		setBackground(Color.darkGray);
 	}
