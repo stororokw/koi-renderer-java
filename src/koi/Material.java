@@ -11,4 +11,5 @@ public abstract class Material {
 	public abstract RGB SampleF(Vector3D wo, BsdfSample bsdfSample, Intersection intersection);
 	public abstract double Pdf(Vector3D wo, Vector3D wi);
 	public abstract EnumSet<Type> getType();
+	public abstract boolean isType(Type ... types);
 }

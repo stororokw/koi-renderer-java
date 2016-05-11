@@ -24,6 +24,10 @@ public class RGB {
 		
 	}
 
+	public RGB(double d) {
+		this(d, d, d);
+	}
+
 	public int getRGB()
 	{
 		int _r = (int)(Koi.clamp(r, 0.0, 1.0) * 255);
@@ -179,10 +183,11 @@ public class RGB {
 		return new RGB(r * s, g * s, b * s);
 	}
 
-	public void timesEquals(double s) {
+	public RGB timesEquals(double s) {
 		r *= s;
 		g *= s;
 		b *= s;
+		return this;
 	}
 	
 	@Override

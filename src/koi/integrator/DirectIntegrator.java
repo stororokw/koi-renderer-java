@@ -16,18 +16,6 @@ import koi.math.Vector3D;
 
 public class DirectIntegrator extends Integrator {
 
-	public boolean isInShadow(Scene scene, Ray ray, LightSample lightSample)
-	{
-		Intersection intersection = new Intersection();
-		if(scene.intersect(ray, intersection))
-		{
-			double distanceToLight = (lightSample.point.minus(ray.origin)).lengthSquared();
-			double distanceToPoint = (intersection.point.minus(ray.origin)).lengthSquared();
-			return distanceToPoint < distanceToLight;
-		}
-		return false;
-	}
-	
 	@Override
 	public RGB li(Scene scene, Ray ray)
 	{
