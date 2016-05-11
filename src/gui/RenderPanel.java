@@ -79,5 +79,6 @@ public class RenderPanel extends JPanel implements TileListener{
 	@Override
 	public void onComplete() {
 		rectangles.clear();
+		this.repaint();
 	}
 }
