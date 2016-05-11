@@ -2,6 +2,8 @@ package koi.math;
 
 import java.util.Arrays;
 
+import koi.Koi;
+
 public class Distribution1D {
 	public double[] PDF = null;
 	public double[] CDF = null;
@@ -32,14 +34,18 @@ public class Distribution1D {
 			CDF[i] = CDF[i - 1] + PDF[i - 1];
 		}
 		CDF[CDF.length - 1] = 1.0;
+		for(int i = 0; i < CDF.length; ++i)
+		{
+			System.out.println(CDF[i]);
+		}
 	}
 	
 	public void Sample(double uniform, Distribution1DSample distributionSample)
 	{
-		int index = Math.max(0, Arrays.binarySearch(CDF, uniform));
+		int index = Arrays.binarySearch(CDF, uniform);
 		if(index < 0)
 		{
-			index = -index + 1;
+			index = (int) Koi.clamp((-index - 1) - 1, 0, CDF.length - 1);
 		}
 		// find probability at x by linearly interpolating
 		double t = (CDF[index + 1] - uniform) / (CDF[index + 1] - CDF[index]);

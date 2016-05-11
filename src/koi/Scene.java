@@ -75,7 +75,7 @@ public class Scene {
 		return lights;
 	}
 
-	public void addLight(PointLight pointLight) {
+	public void addLight(Light pointLight) {
 		lights.add(pointLight);
 	}
 }

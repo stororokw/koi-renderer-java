@@ -35,7 +35,8 @@ public class DirectIntegrator extends Integrator {
 				light.sample(sample, lightSample, intersection);
 				Ray shadowRay = new Ray(point, lightSample.wi.hat());
 				RGB f = material.SampleF(lightSample.wi, bsdfSample, intersection);
-				if(isInShadow(scene, shadowRay, lightSample) || f.equals(RGB.black))
+				Intersection shadowIntersection = new Intersection();
+				if(isInShadow(scene, shadowRay, lightSample, shadowIntersection) || f.equals(RGB.black))
 				{
 					continue;
 				}

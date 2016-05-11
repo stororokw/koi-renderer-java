@@ -12,8 +12,8 @@ import koi.math.BBox;
 
 public class GeometricPrimitive extends Primitive {
 
-	private Geometry geometry = null;
-	private Material material = null;
+	protected Geometry geometry = null;
+	protected Material material = null;
 	
 	public GeometricPrimitive(Geometry geometry, Material material) {
 		this.geometry = geometry;

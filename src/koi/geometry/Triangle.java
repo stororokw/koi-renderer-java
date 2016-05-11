@@ -95,7 +95,7 @@ public class Triangle extends Geometry{
 		geometrySample.point = v2.position.times(uniformPoint.X)
 								.plus(v1.position.times(uniformPoint.Y))
 								.plus(v0.position.times(1.0 - uniformPoint.X - uniformPoint.Y));
-		geometrySample.normal = new Normal((v1.position.minus(v0.position).cross(v2.position.minus(v0.position))).hat());
+		geometrySample.normal = new Normal((v1.position.minus(v0.position).cross(v2.position.minus(v0.position)))).hat();
 	}
 
 	@Override

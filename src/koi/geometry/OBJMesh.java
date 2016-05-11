@@ -48,7 +48,7 @@ public class OBJMesh extends Geometry {
 					v1, v2, v3, this);
 			worldTriangles.add(triangle);
 		}
-
+		calculateAreaDistribution();
 	}
 	
 	@Override

@@ -39,8 +39,13 @@ public class WhittedIntegrator extends Integrator {
 				LightSample lightSample = new LightSample();
 				light.sample(new Point2D(Math.random(), Math.random()), lightSample, intersection);
 				RGB f = material.F(wo, lightSample.wi, intersection);
-				Ray shadowRay = new Ray(hitpoint, lightSample.wi.hat());
-				if(!isInShadow(scene, shadowRay, lightSample))
+				Ray shadowRay = new Ray(hitpoint, lightSample.wi.hat(), 1e-6d, (lightSample.point.minus(hitpoint)).length());
+				if(material.isType(Type.EMISSIVE))
+				{
+					color.plusEquals(light.Le(ray, intersection));
+				}
+				Intersection shadowIntersection = new Intersection();
+				if(!isInShadow(scene, shadowRay, lightSample, shadowIntersection))
 				{
 					color.plusEquals(lightSample.li.times(f)).timesEquals(Math.abs(lightSample.wi.dot(normal)));
 				}
