@@ -35,7 +35,7 @@ public class OrthonormalBasis {
 			V = new Vector3D(0.0, -w.Z, w.Y);
 		}
 		basis.V = V.hat();
-		basis.U = w.cross(V);
+		basis.U = w.cross(basis.V);
 		return basis;
 	}
 	
@@ -46,7 +46,10 @@ public class OrthonormalBasis {
 	
 	public static Vector3D toWorld(OrthonormalBasis basis, Vector3D v)
 	{
-		return new Vector3D(basis.U.dot(v), basis.V.dot(v), basis.W.dot(v));
+		Vector3D result = basis.U.times(v.X);
+		result.plusEquals(basis.V.times(v.Y));
+		result.plusEquals(basis.W.times(v.Z));
+		return result;
 	}
 	
 	public static double cosTheta(Vector3D w)

@@ -10,7 +10,7 @@ public class Sampler {
 	{
 		double z = Math.sqrt(sample.X);
 		double r = Math.sqrt(Math.max(0.0, 1.0 - z * z));
-		double phi = 2.0f * Math.PI * sample.Y;
+		double phi = 2.0 * Math.PI * sample.Y;
 		double x = r * Math.cos(phi);
 		double y = r * Math.sin(phi);
 		return new Vector3D(x, y, z);
@@ -25,7 +25,7 @@ public class Sampler {
 	{
 		double z = sample.X;
 		double r = Math.sqrt(Math.max(0.0, 1.0 - z * z));
-		double phi = 2.0f * Math.PI * sample.Y;
+		double phi = 2.0 * Math.PI * sample.Y;
 		double x = r * Math.cos(phi);
 		double y = r * Math.sin(phi);
 		return new Vector3D(x, y, z);

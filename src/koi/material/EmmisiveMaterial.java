@@ -27,7 +27,8 @@ public class EmmisiveMaterial extends Material {
 	@Override
 	public RGB SampleF(Vector3D wo, BsdfSample bsdfSample,
 			Intersection intersection) {
-		return RGB.black;
+		bsdfSample.pdf = 0.0;
+		return kd.times(multiplier);
 	}
 
 	@Override

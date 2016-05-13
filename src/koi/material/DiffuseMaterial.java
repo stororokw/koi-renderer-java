@@ -7,6 +7,7 @@ import koi.BsdfSample;
 import koi.Intersection;
 import koi.Material;
 import koi.RGB;
+import koi.Sampler;
 import koi.bsdf.LambertianBsdf;
 import koi.math.OrthonormalBasis;
 import koi.math.Vector3D;
@@ -32,26 +33,28 @@ public class DiffuseMaterial extends Material {
 
 	@Override
 	public double Pdf(Vector3D wo, Vector3D wi) {
-		// TODO Auto-generated method stub
-		return 0;
+		return lambertianBsdf.Pdf(wo, wi);
 	}
 
 	@Override
 	public RGB SampleF(Vector3D wi, BsdfSample bsdfSample,
 			Intersection intersection) {
-		wi = OrthonormalBasis.toLocal(intersection.basis, wi);
-		if(OrthonormalBasis.cosTheta(wi) <= 0.0)
-		{
-			return RGB.black;
-		}
+		wi = OrthonormalBasis.toLocal(intersection.basis, wi).hat();
 		RGB f = lambertianBsdf.sample(wi, bsdfSample, intersection);
-		bsdfSample.wo = OrthonormalBasis.toWorld(intersection.basis, bsdfSample.wo);
+		bsdfSample.wo = OrthonormalBasis.toWorld(intersection.basis, bsdfSample.wo).hat();
 		return f;
 	}
 
 	@Override
 	public boolean isType(Type... types) {
-		return lambertianBsdf.getType().contains(types);
+		for(Type type : types)
+		{
+			if(getType().contains(type))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

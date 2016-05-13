@@ -1,6 +1,7 @@
 package koi.bsdf;
 
 import java.util.EnumSet;
+import java.util.concurrent.ThreadLocalRandom;
 
 import koi.Bsdf;
 import koi.BsdfSample;
@@ -32,7 +33,14 @@ public class LambertianBsdf extends Bsdf {
 
 	@Override
 	public RGB sample(Vector3D wi, BsdfSample bsdfSample, Intersection intersection) {
-		bsdfSample.wo = Sampler.cosineHemisphere(new Point2D(Math.random(), Math.random()));
+		
+		bsdfSample.wo = Sampler.cosineHemisphere(new Point2D(ThreadLocalRandom.current().nextDouble(), ThreadLocalRandom.current().nextDouble()));
+		bsdfSample.pdf = Pdf(wi, bsdfSample.wo);
+		if (bsdfSample.pdf <= 0.0)
+		{
+			bsdfSample.pdf = 0;
+			return new RGB(0.0);
+		}
 		return F(bsdfSample.wo, wi, intersection);
 	}
 

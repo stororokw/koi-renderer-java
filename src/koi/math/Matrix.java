@@ -138,6 +138,7 @@ public class Matrix {
 		Ray result = new Ray(point, dir);
 		result.minT = ray.minT;
 		result.maxT = ray.maxT;
+		result.depth = ray.depth;
 		return result;
 	}
 	
