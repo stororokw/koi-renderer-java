@@ -23,7 +23,7 @@ public class SimpleRenderer extends Renderer{
 	}
 	
 	@Override
-	public void render() 
+	public void render(int x0, int y0, int x1, int y1) 
 	{
 		int Width = bitmap.getWidth();
 		int Height = bitmap.getHeight();

@@ -34,14 +34,14 @@ public class TileRenderer extends Renderer {
 	}
 
 	@Override
-	public void render() {
+	public void render(int x, int y, int w, int h)  {
 		Stack<RenderTile> tasks = new Stack<RenderTile>();
 
 		int processors = Runtime.getRuntime().availableProcessors();
 		ExecutorService executioner = Executors.newFixedThreadPool(processors);
-		
-		tilesX = (bitmap.getWidth() + tileSize) / tileSize;
-		tilesY = (bitmap.getHeight() + tileSize) / tileSize;
+		System.out.println(w);
+		tilesX = (int) Math.ceil((w + tileSize) / (double)tileSize);
+		tilesY = (int) Math.ceil((h + tileSize) / (double)tileSize);
 		DIRECTION CurrentDirection = DIRECTION.DOWN;
 		int StepSquareSize = 0;
 		int StepsInCurrentSquare = -1;
@@ -97,10 +97,10 @@ public class TileRenderer extends Renderer {
 				
 				if (!(Column < 0 || Column > tilesX) && !(Row < 0 || Row > tilesY))
 				{
-					int x0 = Column * tileSize;
-					int y0 = Row * tileSize;
-					int x1 = Math.min(tileSize, bitmap.getWidth() - x0);
-					int y1 = Math.min(tileSize, bitmap.getHeight() - y0);
+					int x0 = x + Column * tileSize;
+					int y0 = y + Row * tileSize;
+					int x1 = Math.min(tileSize, w - Column * tileSize);
+					int y1 = Math.min(tileSize, h - Row * tileSize);
 					if(x1 > 0 && y1 > 0)
 						tasks.add(new RenderTile(this, scene, x0, y0, x1, y1, scene.getSamples()));
 				}
@@ -111,7 +111,6 @@ public class TileRenderer extends Renderer {
 			{
 				executioner.execute(tasks.pop());
 			}
-			
 			executioner.shutdown();
 			executioner.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
 			for(TileListener listener : updateListeners)

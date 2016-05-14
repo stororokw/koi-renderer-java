@@ -1,8 +1,8 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.SwingWorker;
 import javax.swing.SwingWorker.StateValue;
@@ -112,8 +113,20 @@ public class RenderWindow extends JFrame implements ActionListener{
 				}
 			}
 		});
+		
+
+		JToggleButton region= new JToggleButton();
+		region.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				panel.toggleRegionTool();
+			}
+			
+		});
 		toolbar.add(button);
 		toolbar.add(stop);
+		toolbar.add(region);
 		toolbar.addSeparator();
 		toolbar.add(save);
 		try {
@@ -126,6 +139,9 @@ public class RenderWindow extends JFrame implements ActionListener{
 					.getScaledInstance(35, 35, Image.SCALE_SMOOTH)));
 			save.setIcon(new ImageIcon(
 					ImageIO.read(new FileInputStream(getClass().getClassLoader().getResource("save-icon.png").getFile()))
+					.getScaledInstance(35, 35, Image.SCALE_SMOOTH)));
+			region.setIcon(new ImageIcon(
+					ImageIO.read(new FileInputStream(getClass().getClassLoader().getResource("region-icon.png").getFile()))
 					.getScaledInstance(35, 35, Image.SCALE_SMOOTH)));
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -145,8 +161,8 @@ public class RenderWindow extends JFrame implements ActionListener{
 				@Override
 				protected Void doInBackground() throws Exception {
 					long start = System.currentTimeMillis();
-					panel.clear();
-					renderer.render();
+					Rectangle region = RenderWindow.this.panel.getRegion();
+					renderer.render(region.x, region.y, region.width, region.height);
 					long end = System.currentTimeMillis() - start;
 					System.out.println(end / 1000.0);
 					return null;
