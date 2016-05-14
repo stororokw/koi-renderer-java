@@ -31,6 +31,14 @@ public final class Koi {
 		return (radians * 180.0) / Math.PI;
 	}
 
+	public static double CubicInterp(double t, double x0, double x1, double x2, double x3)
+	{
+		double a0 = (1 - t) * (1 - t) * (1 - t);
+		double a1 = 3 * t * (1 - t) * (1 - t);
+		double a2 = 3 * t * t * (1 - t);
+		double a3 = t * t * t;
+		return a0*x0 + a1*x1 + a2*x2 + a3*x3;
+	}
 
 	// Helper functions for converting from spherical to canonical coordinates
 	// See page 291 of Physically based rendering

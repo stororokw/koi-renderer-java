@@ -34,10 +34,6 @@ public class Distribution1D {
 			CDF[i] = CDF[i - 1] + PDF[i - 1];
 		}
 		CDF[CDF.length - 1] = 1.0;
-		for(int i = 0; i < CDF.length; ++i)
-		{
-			System.out.println(CDF[i]);
-		}
 	}
 	
 	public void Sample(double uniform, Distribution1DSample distributionSample)
