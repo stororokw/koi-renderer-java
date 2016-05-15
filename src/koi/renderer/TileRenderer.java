@@ -40,8 +40,8 @@ public class TileRenderer extends Renderer {
 		int processors = Runtime.getRuntime().availableProcessors();
 		ExecutorService executioner = Executors.newFixedThreadPool(processors);
 		System.out.println(w);
-		tilesX = (int) Math.ceil((w + tileSize) / (double)tileSize);
-		tilesY = (int) Math.ceil((h + tileSize) / (double)tileSize);
+		tilesX = (int) ((w + tileSize) / (double)tileSize);
+		tilesY = (int) ((h + tileSize) / (double)tileSize);
 		DIRECTION CurrentDirection = DIRECTION.DOWN;
 		int StepSquareSize = 0;
 		int StepsInCurrentSquare = -1;

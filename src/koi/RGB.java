@@ -34,7 +34,7 @@ public class RGB {
 		int _g = (int)(Koi.clamp(g, 0.0, 1.0) * 255);
 		int _b = (int)(Koi.clamp(b, 0.0, 1.0) * 255);
 
-		return (_r << 16) + (_g  << 8) + _b;
+		return (_r << 16) | (_g << 8) | _b;
 	}
 	
 	public int[] getComponents()

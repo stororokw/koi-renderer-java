@@ -9,6 +9,7 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +17,10 @@ import java.util.Map;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
+import koi.RGB;
 import koi.Scene;
+import koi.texture.BitmapTexture;
+import koi.util.Bitmap;
 
 @SuppressWarnings("serial")
 public class RenderPanel extends JPanel implements TileListener, MouseInputListener, ActionListener {
@@ -25,6 +29,7 @@ public class RenderPanel extends JPanel implements TileListener, MouseInputListe
 	private Map<Long, Rectangle> rectangles = Collections.synchronizedMap(new HashMap<Long, Rectangle>());
 	private Rectangle region = null;
 	private Point currentPos = null;
+	private BufferedImage image = null;
 	private Tool activeTool = Tool.NONE;
 	
 	public RenderPanel(Scene scene) {
@@ -35,7 +40,7 @@ public class RenderPanel extends JPanel implements TileListener, MouseInputListe
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
 		this.currentPos = new Point();
-		
+		this.image = new BufferedImage(scene.getBitmap().getWidth(), scene.getBitmap().getHeight(), BufferedImage.TYPE_INT_RGB);
 		setBackground(Color.darkGray);
 	}
 	
@@ -49,7 +54,7 @@ public class RenderPanel extends JPanel implements TileListener, MouseInputListe
 		int top = getHeight()/2 - imageHeight;
 		int margin = 1;
 		
-		g2.drawImage(scene.getBitmap().getImage(), left , top, this);
+		g2.drawImage(image, left , top, this);
 		g2.setColor(Color.white);
 		if(activeTool == Tool.REGION)
 		{
@@ -66,7 +71,15 @@ public class RenderPanel extends JPanel implements TileListener, MouseInputListe
 	}
 	
 	@Override
-	public void onUpdate(long thread) {
+	public void onUpdate(int x0, int y0, int x1, int y1, long thread) {
+		Bitmap bitmap = scene.getBitmap();
+		for(int i = x0; i < x0 + x1; ++i)
+		{
+			for(int j = y0; j < y0 + y1; ++j)
+			{
+				image.setRGB(i, j, bitmap.rgb(i, j));
+			}
+		}
 		synchronized (rectangles) {
 			rectangles.remove(thread);
 		};

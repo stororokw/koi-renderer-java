@@ -54,7 +54,7 @@ public class SimpleRenderer extends Renderer{
 					}
 					for(TileListener tile : updateListeners)
 					{
-						tile.onUpdate(Thread.currentThread().getId());
+						tile.onUpdate(0, row, Width, 1, Thread.currentThread().getId());
 					}
 				}
 				

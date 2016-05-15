@@ -29,6 +29,11 @@ public class BitmapTexture extends Texture {
 		}
 	}
 	
+	public BitmapTexture(Bitmap bitmap, double gamma) {
+		this.bitmap = bitmap;
+		this.gamma = gamma;
+	}
+	
 	public Bitmap getBitmap() {
 		return bitmap;
 	}

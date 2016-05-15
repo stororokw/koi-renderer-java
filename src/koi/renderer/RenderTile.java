@@ -60,7 +60,7 @@ public class RenderTile implements Runnable {
 		scene.getBitmap().copy(bitmap, x0, y0, x1, y1);
 		for(TileListener listener : renderer.updateListeners)
 		{
-			listener.onUpdate(Thread.currentThread().getId());
+			listener.onUpdate(x0, y0, x1, y1, Thread.currentThread().getId());
 		}
 	}
 	
