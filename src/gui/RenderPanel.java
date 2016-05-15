@@ -31,7 +31,7 @@ public class RenderPanel extends JPanel implements TileListener, MouseInputListe
 		this.scene = scene;
 		this.setPreferredSize(new Dimension(scene.getBitmap().getWidth() + 100, scene.getBitmap().getHeight() + 100));
 		this.setDoubleBuffered(true);
-		this.region = new Rectangle();
+		this.region = new Rectangle(0, 0, scene.getBitmap().getWidth(), scene.getBitmap().getHeight());
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
 		this.currentPos = new Point();
@@ -42,8 +42,7 @@ public class RenderPanel extends JPanel implements TileListener, MouseInputListe
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-	    Graphics2D g2 = (Graphics2D) g;
-	  
+		Graphics2D g2 = (Graphics2D) g;
 		int imageWidth = scene.getBitmap().getWidth() / 2;
 		int imageHeight = scene.getBitmap().getHeight() / 2;
 		int left = getWidth()/2 - imageWidth;
@@ -54,7 +53,7 @@ public class RenderPanel extends JPanel implements TileListener, MouseInputListe
 		g2.setColor(Color.white);
 		if(activeTool == Tool.REGION)
 		{
-			g2.drawRect(Math.abs(left + region.x), Math.abs(top + region.y), region.width, region.height);
+			g2.drawRect(left + region.x, top + region.y, region.width, region.height);
 		}
 		synchronized (rectangles) {
 			for(Long key : rectangles.keySet())
@@ -141,8 +140,37 @@ public class RenderPanel extends JPanel implements TileListener, MouseInputListe
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		currentPos.x = e.getX();
-		currentPos.y = e.getY();
+		if(e.getButton() == MouseEvent.BUTTON1)
+		{	
+			int imageWidth = scene.getBitmap().getWidth();
+			int imageHeight = scene.getBitmap().getHeight();
+			int left = getWidth()/2 - imageWidth / 2;
+			int top = getHeight()/2 - imageHeight / 2;
+			if(activeTool == Tool.REGION)
+			{
+				if(e.getX() < left)
+				{
+					currentPos.x = left;
+				} else if(e.getX() > left + imageWidth)
+				{
+					currentPos.x = left + imageWidth;
+				} else
+				{
+					currentPos.x = e.getX();
+				}
+				
+				if(e.getY() < top)
+				{
+					currentPos.y = top;
+				} else if(e.getY() > top + imageHeight)
+				{
+					currentPos.y = top + imageHeight;
+				} else
+				{
+					currentPos.y = e.getY();
+				}
+			}
+		}
 	}
 
 	@Override
@@ -181,7 +209,11 @@ public class RenderPanel extends JPanel implements TileListener, MouseInputListe
 				x = left + imageWidth;
 			}
 
-			regionSelect(currentPos.x - left, currentPos.y - top, x - currentPos.x , y - currentPos.y);
+			int x0 = Math.min(currentPos.x, x);
+			int y0 = Math.min(currentPos.y, y);
+			int w = Math.abs(x - currentPos.x);
+			int h = Math.abs(y - currentPos.y);
+			regionSelect(x0 - left, y0 - top, w, h);
 			RenderPanel.this.repaint();
 		}
 	}
