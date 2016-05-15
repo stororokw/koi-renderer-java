@@ -8,6 +8,7 @@ import koi.Intersection;
 import koi.Material;
 import koi.RGB;
 import koi.Sampler;
+import koi.Texture;
 import koi.bsdf.LambertianBsdf;
 import koi.math.OrthonormalBasis;
 import koi.math.Vector3D;
@@ -16,7 +17,7 @@ public class DiffuseMaterial extends Material {
 	
 	private LambertianBsdf lambertianBsdf;
 	
-	public DiffuseMaterial(RGB kd)
+	public DiffuseMaterial(Texture kd)
 	{
 		lambertianBsdf = new LambertianBsdf(kd);
 	}

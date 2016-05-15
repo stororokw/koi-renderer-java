@@ -77,7 +77,17 @@ public class PathTracingIntegrator extends Integrator {
 						return RGB.black;
 					}
 					Ray pathRay = new Ray(intersection.point, bsdfSample.wo.hat());
+					pathRay.depth = ray.depth;
 					color.plusEquals(f.times(li(scene, pathRay).times(Math.abs(bsdfSample.wo.dot(intersection.normal)) / bsdfSample.pdf)));
+				}
+			}
+		} else
+		{
+			for(Light light : scene.getLights())
+			{
+				if(light.isInfinite())
+				{
+					return light.Le(ray, intersection);
 				}
 			}
 		}

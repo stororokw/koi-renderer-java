@@ -8,14 +8,15 @@ import koi.BsdfSample;
 import koi.Intersection;
 import koi.RGB;
 import koi.Sampler;
+import koi.Texture;
 import koi.math.OrthonormalBasis;
 import koi.math.Point2D;
 import koi.math.Vector3D;
 
 public class LambertianBsdf extends Bsdf {
-	private RGB albedo;
+	private Texture albedo;
 	
-	public LambertianBsdf(RGB kd)
+	public LambertianBsdf(Texture kd)
 	{
 		type = EnumSet.of(Type.DIFFUSE);
 		albedo = kd;
@@ -23,7 +24,7 @@ public class LambertianBsdf extends Bsdf {
 	
 	@Override
 	public RGB F(Vector3D wo, Vector3D wi, Intersection intersection) {
-		return albedo.divide(Math.PI);
+		return albedo.getValue(intersection).divide(Math.PI);
 	}
 
 	@Override

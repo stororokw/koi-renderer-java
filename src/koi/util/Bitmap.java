@@ -26,9 +26,20 @@ public class Bitmap {
 		buffer =((DataBufferInt)raster.getDataBuffer()).getData();
 	}
 	
+	public Bitmap(BufferedImage image) {
+		this.image = image;
+		this.raster = image.getRaster();
+	}
+	
 	public synchronized void setPixel(int x, int y, RGB c)
 	{
 		image.setRGB(x, y, c.getRGB());
+	}
+	
+	public RGB getPixel(int column, int row)
+	{
+		int rgb = image.getRGB(column, row);
+		return new RGB(((rgb & 0x00ff0000) >> 16) / 255.0, ((rgb & 0x0000ff00) >> 8) / 255.0, (rgb & 0x000000ff) / 255.0);
 	}
 	
 	synchronized

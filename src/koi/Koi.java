@@ -3,6 +3,7 @@ package koi;
 
 import koi.math.Matrix;
 import koi.math.Normal;
+import koi.math.Point2D;
 import koi.math.Vector3D;
 
 public final class Koi {
@@ -50,6 +51,15 @@ public final class Koi {
 					  sintheta * Math.sin(phi),
 					  costheta);
 
+	}
+	
+	public static Point2D Spherical(Vector3D v)
+	{
+		double phi = SphericalPhi(v);
+		double theta = SphericalTheta(v);
+		double U = phi / (2.0 * Math.PI);
+		double V = theta / Math.PI;
+		return new Point2D(U, V);
 	}
 
 	// Conversion from canonical coordinates to spherical coordinates theta, phi
