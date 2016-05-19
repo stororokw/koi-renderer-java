@@ -49,26 +49,24 @@ public class Triangle extends Geometry{
 		Vector3D PVec = ray.direction.cross(Edge2);
 
 		double Determinant = Edge1.dot(PVec);
-		if (Determinant < ray.minT)
+		if (Determinant > -ray.minT && Determinant < ray.minT)
 			return false;
 
+		double InverseDeterminant = 1.0 / Determinant;
+		
 		// Distance from P0 to ray Origin
 		Vector3D TVec = ray.origin.minus(v0.position);
 
-		double U = TVec.dot(PVec);
-		if (U < 0.0 || U > Determinant)
+		double U = TVec.dot(PVec) * InverseDeterminant;
+		if (U < 0.0 || U > 1.0)
 			return false;
 		
 		Vector3D QVec = TVec.cross(Edge1);
-		double V = ray.direction.dot(QVec);
-		if (V < 0.0 || U + V > Determinant)
+		double V = ray.direction.dot(QVec) * InverseDeterminant;
+		if (V < 0.0 || U + V >  1.0)
 			return false;
 
-		T = Edge2.dot(QVec);
-		double InverseDeterminant = 1.0 / Determinant;
-		T *= InverseDeterminant;
-		U *= InverseDeterminant;
-		V *= InverseDeterminant;
+		T = Edge2.dot(QVec) * InverseDeterminant;
 		
 		if (T > ray.minT && T < ray.maxT && T < intersection.tHit)
 		{
@@ -76,7 +74,7 @@ public class Triangle extends Geometry{
 			
 		
 			Point3D uvw = v0.uvw.times(1 - U - V).plus(v1.uvw.times(U)).plus(v2.uvw.times(V));
-			Normal normal = (v0.normal.times(1 - (U + V))).plus((v1.normal.times(U)).plus(v2.normal.times(V)));
+			Normal normal = (v0.normal.times(1 - (U + V))).plus((v1.normal.times(U)).plus(v2.normal.times(V))).hat();
 			intersection.normal = normal;
 //			intersection.normal = new Normal(normal.X * 0.5 + 0.5, normal.Y * 0.5 + 0.5, normal.Z * 0.5 + 0.5);
 			intersection.point = ray.on(T);

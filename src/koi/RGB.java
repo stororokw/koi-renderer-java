@@ -28,6 +28,10 @@ public class RGB {
 		this(d, d, d);
 	}
 
+	public RGB(RGB r) {
+		this(r.r, r.g, r.b);
+	}
+
 	public int getRGB()
 	{
 		int _r = (int)(Koi.clamp(r, 0.0, 1.0) * 255);
@@ -144,6 +148,11 @@ public class RGB {
 		double _g = (Koi.clamp(g, 0.0, 1.0));
 		double _b = (Koi.clamp(b, 0.0, 1.0));
 		return new RGB(_r, _g, _b); 
+	}
+	
+	public double average()
+	{
+		return (r + g + b) / 3.0;
 	}
 
 	public double getRed() {

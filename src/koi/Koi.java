@@ -114,4 +114,13 @@ public final class Koi {
 		return CameraToWorld;
 	}
 
+	public static RGB BilinearInterp(RGB s, RGB t, RGB uv00, RGB uv10,
+			RGB uv01, RGB uv11) {
+		// interpolate across u to s
+		RGB a = uv00.times(RGB.white.minus(s)).plus(uv10.times(s));
+		RGB b = uv01.times(RGB.white.minus(s)).plus(uv11.times(s));
+		// linearly interpolate across v between a and b
+		return a.times(RGB.white.minus(t)).plus(b.times(t));
+	}
+
 }

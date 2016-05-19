@@ -87,19 +87,16 @@ public class BVH extends Primitive{
 
 	public boolean intersectRay(BVHNode node, Ray ray, Intersection intersection)
 	{
-		double tMin = Double.POSITIVE_INFINITY;
-		boolean hit = false;
 		Range range = new Range();
-		if(node.bounds.intersectRay(ray, range) && range.t0 < tMin)
+		if(node.bounds.intersectRay(ray, range) && range.t0 < intersection.tHit)
 		{
-			tMin = range.t0;
 			if(node.isLeaf())
 			{
+				boolean hit = false;
 				for(Primitive primitive : node.objects)
 				{
 					if(primitive.intersectRay(ray, intersection))
 					{
-						tMin = intersection.tHit;
 						hit = true;
 					}
 				}
@@ -113,12 +110,10 @@ public class BVH extends Primitive{
 			
 			if(intersectRay(node.left, ray, intersection))
 			{
-				tMin = intersection.tHit;
 				hitLeft = true;
 			}
 			if(intersectRay(node.right, ray, intersection))
 			{
-				tMin = intersection.tHit;
 				hitRight = true;
 			}
 			

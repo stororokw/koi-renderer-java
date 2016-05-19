@@ -130,6 +130,16 @@ public class Vector3D implements Iterable<Vector3D>{
 		return this;
 	}
 
+	public Vector3D normalized()
+	{
+		Vector3D result = new Vector3D(this);
+		double Invlength = 1.0 / result.length();
+		
+		result.X *= Invlength;
+		result.Y *= Invlength;
+		result.Z *= Invlength;
+		return result;
+	}
 	public double length()
 	{
 		return Math.sqrt(X * X + Y * Y + Z * Z);

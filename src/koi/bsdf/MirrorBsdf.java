@@ -28,8 +28,12 @@ public class MirrorBsdf extends Bsdf {
 	@Override
 	public RGB sample(Vector3D wi, BsdfSample bsdfSample,
 			Intersection intersection) {
+		bsdfSample.pdf = 1.0;
+		if(OrthonormalBasis.cosTheta(wi) < 0.0)
+		{
+			bsdfSample.pdf = 0.0;
+		}
 		bsdfSample.wo = new Vector3D(-wi.X, -wi.Y, wi.Z).hat();
-//		return RGB.white;
 		return specular.times(fresnel.calculate(OrthonormalBasis.cosTheta(wi)).divide(OrthonormalBasis.absCosTheta(bsdfSample.wo)));
 	}
 

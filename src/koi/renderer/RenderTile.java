@@ -3,6 +3,7 @@ package koi.renderer;
 import gui.TileListener;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import koi.RGB;
 import koi.Ray;
@@ -20,7 +21,6 @@ public class RenderTile implements Runnable {
 	private Bitmap bitmap = null;
 	private Scene scene = null;
 	private Renderer renderer = null;
-	private Random random = new Random();
 	
 	public RenderTile(Renderer renderer, Scene scene, int x0, int y0, int x1, int y1, int samples) {
 		this.scene = scene;
@@ -46,7 +46,7 @@ public class RenderTile implements Runnable {
 				RGB colour = new RGB();
 				for (int i = 0; i < samples; ++i)
 				{
-					Point2D ap = new Point2D(random.nextDouble(), random.nextDouble());
+					Point2D ap = new Point2D(ThreadLocalRandom.current().nextDouble(0.0, 1.0), ThreadLocalRandom.current().nextDouble(0.0, 1.0));
 					double SampleX = (x0 + col + ap.X);
 					double SampleY = (y0 + row + ap.Y);
 					Ray ray = scene.getCamera().calculateRay(SampleX, SampleY, 0, 0, scene.getBitmap().getWidth(), scene.getBitmap().getHeight());
