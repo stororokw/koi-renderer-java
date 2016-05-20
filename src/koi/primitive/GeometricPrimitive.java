@@ -25,6 +25,7 @@ public class GeometricPrimitive extends Primitive {
 		if(geometry.intersectRay(ray, intersection))
 		{
 			intersection.material = material;
+			intersection.primitive = this;
 			return true;
 		}
 		return false;

@@ -45,8 +45,6 @@ public class PathTracingIntegrator extends Integrator {
 			
 			for(Light light : scene.getLights())
 			{
-				if(light.isInfinite())
-					continue;
 				LightSample lightSample = new LightSample();
 				light.sample(new Point2D(ThreadLocalRandom.current().nextDouble(), ThreadLocalRandom.current().nextDouble()), lightSample, intersection);
 				RGB f = material.F(wo, lightSample.wi, intersection);
@@ -65,12 +63,6 @@ public class PathTracingIntegrator extends Integrator {
 			if(material.isType(Type.EMISSIVE))
 			{
 				color.plusEquals(f);
-				Point2D p = new Point2D(ThreadLocalRandom.current().nextDouble(0.0, 1.0), ThreadLocalRandom.current().nextDouble(0.0, 1.0));
-				Vector3D v = Sampler.cosineHemisphere(p);
-				Ray pathRay = new Ray(intersection.point, v);
-				double pdf = Sampler.cosineHemispherePDF(Math.abs(v.dot(intersection.normal)));
-				pathRay.depth = ray.depth;
-				return color.plusEquals(li(scene, pathRay).times(Math.abs(v.dot(intersection.normal)) / pdf));
 			}
 
 			if(ray.depth < maxDepth)
@@ -96,7 +88,14 @@ public class PathTracingIntegrator extends Integrator {
 					color.plusEquals(f.times(li(scene, pathRay)).times(Math.abs(bsdfSample.wo.dot(intersection.normal)) / bsdfSample.pdf));
 				}
 			}
-		} else
+		}
+		
+		return color;
+	}
+	
+	private RGB reflection(Scene scene, Ray ray, Intersection intersection) {
+		RGB color = new RGB();
+		if(!scene.intersect(ray, intersection))
 		{
 			for(Light light : scene.getLights())
 			{
@@ -120,7 +119,9 @@ public class PathTracingIntegrator extends Integrator {
 		{
 			Ray reflectedRay = new Ray(intersection.point, bsdfSample.wo);
 			reflectedRay.depth = ray.depth;
-			l = li(scene, reflectedRay).times(f).times(Math.abs(bsdfSample.wo.normalized().dot(normal)));
+			RGB refl = reflection(scene, reflectedRay, new Intersection());
+			l = li(scene, reflectedRay).plus(refl).times(f).times(Math.abs(bsdfSample.wo.normalized().dot(normal)));
+			
 		}
 		return l;
 	}

@@ -61,7 +61,7 @@ public class BVH extends Primitive{
 	
 	public BVHNode recurse(BVHNode node, List<Primitive> primitiveList, int depth)
 	{
-		if(primitiveList.size() <= 5)
+		if(primitiveList.size() <= 1)
 		{
 			BVHNode leaf = new BVHNode();
 			leaf.objects = primitiveList;

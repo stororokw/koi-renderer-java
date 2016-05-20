@@ -68,9 +68,9 @@ public class Distribution2D {
 		Distribution1DSample distributionU = new Distribution1DSample();
 		Distribution1DSample distributionV = new Distribution1DSample();
 		
-		marginalDensities.Sample(sample.X, distributionU);
-		int i = (int) (Koi.clamp(distributionU.probability, 0.0, 1.0) * (rowDistributions.size() - 1)) ;
-		rowDistributions.get(i).Sample(sample.Y, distributionV);
+		marginalDensities.Sample(sample.Y, distributionV);
+		int i = (int) (Koi.clamp(distributionV.probability, 0.0, 1.0) * (rowDistributions.size() - 1)) ;
+		rowDistributions.get(i).Sample(sample.X, distributionU);
 		sample2D.pdf  = distributionU.pdf * distributionV.pdf;
 		sample2D.u = distributionU.probability;
 		sample2D.v = distributionV.probability;

@@ -73,8 +73,8 @@ public class Triangle extends Geometry{
 			intersection.tHit = T;
 			
 		
-			Point3D uvw = v0.uvw.times(1 - U - V).plus(v1.uvw.times(U)).plus(v2.uvw.times(V));
-			Normal normal = (v0.normal.times(1 - (U + V))).plus((v1.normal.times(U)).plus(v2.normal.times(V))).hat();
+			Point3D uvw = v0.uvw.times(1 - U - V).plusEquals(v1.uvw.times(U)).plusEquals(v2.uvw.times(V));
+			Normal normal = (v0.normal.times(1 - (U + V))).plusEquals((v1.normal.times(U)).plusEquals(v2.normal.times(V))).hat();
 			intersection.normal = normal;
 //			intersection.normal = new Normal(normal.X * 0.5 + 0.5, normal.Y * 0.5 + 0.5, normal.Z * 0.5 + 0.5);
 			intersection.point = ray.on(T);

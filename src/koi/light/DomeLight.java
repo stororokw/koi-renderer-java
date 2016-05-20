@@ -70,9 +70,9 @@ public class DomeLight implements Light {
 		double cosPhi = Math.cos(phi);
 		double sinPhi = Math.sin(phi);
 		Bitmap bitmap = texture.getBitmap();
-		lightSample.wi = worldToLocal.transform(new Vector3D(sinTheta * cosPhi, cosTheta, sinTheta * sinPhi)).hat();
+		lightSample.wi = localToWorld.transform(new Vector3D(sinTheta * cosPhi, cosTheta, sinTheta * sinPhi)).hat();
 		lightSample.point = new Point3D(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
-		double pdf = distSample.pdf * (bitmap.getWidth() * bitmap.getHeight()) / (2.0 * Math.PI * sinTheta);
+		double pdf = distSample.pdf * (bitmap.getWidth() * bitmap.getHeight()) / (2.0 * Math.PI * Math.PI * sinTheta);
 		
 		if(pdf == 0.0)
 		{
@@ -80,8 +80,7 @@ public class DomeLight implements Light {
 			return;
 		}
 		
-		Point2D uv = Koi.Spherical(lightSample.wi);
-		lightSample.li = bitmap.getPixel((int)(uv.X * bitmap.getWidth()), (int)(uv.Y * bitmap.getHeight())).divide(pdf);
+		lightSample.li = bitmap.getPixel((int)(distSample.u * bitmap.getWidth()), (int)(distSample.v * bitmap.getHeight())).divide(pdf);
 	}
 
 }
